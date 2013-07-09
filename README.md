@@ -1,4 +1,4 @@
-hackerrank-solutions
+HackerRank Solutions
 ====================
 
 My HackerRank solutions
