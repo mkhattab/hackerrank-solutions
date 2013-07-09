@@ -23,13 +23,15 @@
    p--
    #+END_EXAMPLE
 ** Sample output
+   #+BEGIN_EXAMPLE
    DOWN
    LEFT
+   #+END_EXAMPLE
 ** Task
    Complete the function displayPathtoPrincess which takes in two
    parameters - the integer N and the character array grid. The grid will
    be formatted exactly as you see it in the input, so for the sample
-   input the princess is at grid[2][0]. The function shall output moves
+   input the princess is at grid ~[2][0]~. The function shall output moves
    (LEFT, RIGHT, UP or DOWN) on consecutive lines to rescue/reach the
    princess. The goal is to reach the princess in as few moves as
    possible.
@@ -85,12 +87,50 @@
    : 
 ** Ruby
    #+BEGIN_SRC ruby :results output :var _input=sample-input
-     puts _input
+     #!/bin/ruby
+     # Head ends here
+     def displayPathtoPrincess(n,grid)
+       princess = nil
+       mario = nil
+       grid.each_with_index do |row, idx|
+         if row.include? 'p'
+           princess = [idx, row.index('p')]
+         end
+         if row.include? 'm'
+           mario = [idx, row.index('m')]
+         end
+       end
+     
+       drows = princess[0] - mario[0]
+       dcols = princess[1] - mario[1]
+     
+       (0...drows.abs).each do |x|
+         puts drows < 0 ? 'UP' : 'DOWN'
+       end
+     
+       (0...dcols.abs).each do |x|
+         puts dcols < 0 ? 'LEFT' : 'RIGHT'
+       end
+     end
+     
+     if defined? _input
+       m = _input.split.first.to_i
+       grid = _input.split.slice(1..-1)
+     else
+       # Tail starts here
+       m = gets.to_i
+     
+       grid = Array.new(m)
+     
+       (0...m).each do |i|
+         grid[i] = gets.strip
+       end
+     end
+     
+     displayPathtoPrincess(m,grid)
    #+END_SRC
 
    #+RESULTS:
-   : 3
-   :    ---
-   :    -m-
-   :    p--
+   : DOWN
+   : LEFT
 
