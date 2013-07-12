@@ -102,10 +102,6 @@
      }
      
    #+END_SRC
-
-   #+RESULTS:
-   : Hello world
-
 ** Python
    #+BEGIN_SRC python :results output :var _input=sample-input
      #!/usr/bin/env python
