@@ -1,0 +1,190 @@
+* Bot Saves Princess 2
+  In this version of “Bot saves princess”, Princess Peach and bot’s
+  position are randomly set. Can you save the princess?
+** Task
+   Complete the function nextMove which takes in 4 parameters - an
+   integerN, an integer r and c indicating the row & column position of
+   the bot and the character array grid and output only the next move the
+   bot makes to rescue the princess.
+** Input Format
+   The first line of the input is N (<100), the size of the board (NxN).
+   The second line of the input contains two space seperated integers,
+   which is the position of the bot in row-column format. The Board is
+   indexed at (0,0) on the top left and (N-1,N-1) on the bottom right.
+   The x co-ordinate increases from left to right and y co-ordinate
+   increases from top to bottom. N lines follow each line containing N
+   characters which is the grid data.
+
+   The position of the princess is indicated by the character ‘p’ and the position of the bot is indicated by the character ‘m’ and each cell is denoted by ‘-‘ (ascii value 45).
+** Output Format
+   Output only the next move you take to rescue the princess. Valid moves
+   are LEFT or RIGHT or UP or DOWN
+** Sample Input
+   #+NAME: sample-input
+   #+BEGIN_EXAMPLE
+   5
+   3 2
+   -----
+   -----
+   p--m-
+   -----
+   -----
+   #+END_EXAMPLE
+** Sample Output
+   #+BEGIN_EXAMPLE
+   LEFT  
+   #+END_EXAMPLE
+** Scoring
+   Your score for every testcase would be (NxN minus number of moves made
+   to rescue the princess)/10 where N is the size of the grid (5x5 in the
+   sample testcase).
+* Solutions
+** C
+   #+BEGIN_SRC C :tangle bot-saves-princess2.c
+     #include <stdio.h>
+     #include <string.h>
+     #include <math.h>
+     /* Head ends here */
+     void nextMove(int n, int c, int r, char grid[101][101]){
+       int i, j, up, left;
+       short princess[2];
+     
+       /* find the princess */
+       for (i = 0; i < n; ++i) {
+         for (j = 0; j < n; ++j) {
+           if (grid[i][j] == 'p') {
+             princess[0] = i;
+             princess[1] = j;
+           }
+         }
+       }
+     
+       if ((up = princess[0] - r) < 0) {
+         printf("UP\n");
+         return;
+       } else if (up > 0) {
+         printf("DOWN\n");
+         return;
+       }
+     
+     
+       if ((left = princess[1] - c) < 0) {
+         printf("LEFT\n");
+         return;
+       } else if (left > 0) {
+         printf("RIGHT\n");
+         return;
+       }
+     }
+     /* Tail starts here */
+     int main(void) {
+     
+       int n, x, y;
+     
+       scanf("%d", &n);
+       scanf("%d", &x);
+       scanf("%d", &y);
+     
+       char grid[101][101];
+     
+       for(int i=0; i<n; i++) {
+         scanf("%s[^\n]%*c", grid[i]);
+       }
+     
+       nextMove(n, x, y, grid);
+       return 0;
+     }
+     
+   #+END_SRC
+** Python
+   #+BEGIN_SRC python :results output :var _input=sample-input
+     #!/usr/bin/env python
+     # Head ends here
+     def nextMove(n,c,r,grid):
+         if princess[0] - r < 0:
+             move = "UP"
+         if princess[0] - r > 0:
+             move = "DOWN"
+         if princess[1] - c < 0:
+             move = "LEFT"
+         if princess[1] - c > 0:
+             move = "RIGHT"
+     
+         return move
+     # Tail starts here
+     if "_input" in globals():
+         lines = _input.strip().split('\n')
+         n = lines[0]
+         x,y = [int(i) for i in lines[1].strip().split()]
+         grid = []
+         for i, l in enumerate(lines[2:]):
+             row = l.strip()
+             if 'p' in row:
+                 princess = (i, row.index('p'))
+             grid.append(row)
+     else:
+         n = input()
+         x,y = [int(i) for i in raw_input().strip().split()]
+         grid = []
+         for i in xrange(0, n):
+             row = raw_input()
+             if 'p' in row:
+                 princess = (i, row.index('p'))
+             grid.append(row)
+     
+     print nextMove(n,x,y,grid)
+   #+END_SRC
+
+   #+RESULTS:
+   : LEFT
+
+** Ruby
+   #+BEGIN_SRC ruby :results output :var _input=sample-input
+     #!/bin/ruby
+     # Head ends here
+     def nextMove(n,c,r,p,grid)
+       case
+       when p[0] - r < 0 then move = "UP"
+       when p[0] - r > 0 then move = "DOWN"
+       when p[1] - c < 0 then move = "LEFT"
+       when p[1] - c > 0 then move = "RIGHT"
+       end
+       move
+     end
+     
+     if defined? _input
+       lines = _input.strip.split("\n")
+       n = lines[0].to_i
+       x,y = lines[1].strip.split.map {|n| n.to_i}
+       grid = lines[2..-1]
+       princess = nil
+       grid.each_with_index do |r, i|
+         if r.include? 'p'
+           princess = [i, r.strip.index('p')]
+           break
+         end
+       end
+     else
+       # Tail starts here
+       n = gets.to_i
+     
+       x,y = gets.strip.split.map {|num| num.to_i}
+     
+       grid = Array.new(n)
+     
+       princess = nil
+       (0...n).each do |i|
+         row = gets
+         if row.include? 'p'
+           princess = [i, row.index('p')]
+         end
+         grid[i] = row
+       end
+     end
+     
+     puts nextMove(n,x,y,princess,grid)
+   #+END_SRC
+
+   #+RESULTS:
+   : LEFT
+
